@@ -683,7 +683,7 @@ GPT-2 is a black box you download from OpenAI. This project implements **every s
 
 ## 🙏 Credits
 
-- **Architecture Reference:** [Vizuara Team — Raj](https://youtu.be/bLDlwcl6hbA) (Gemma 3 implementation tutorial)
+- **Architecture Reference:** [Vizuara Team — prof.RajDandekar, phD](https://youtu.be/bLDlwcl6hbA) (Gemma 3 implementation tutorial)
 - **Dataset:** [TinyStories](https://huggingface.co/datasets/roneneldan/TinyStories) by Ronen Eldan and Yuanzhi Li
 - **Tokenizer:** [tiktoken](https://github.com/openai/tiktoken) (GPT-2 BPE) by OpenAI
 - **Training Hardware:** NVIDIA A100 40GB via Google Colab Pro
