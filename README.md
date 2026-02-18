@@ -232,13 +232,13 @@ This section explains **every component** inside the model. Each part includes a
 ### Full Architecture Overview
 
 <p align="center">
-  <img src="assets/visuals/13_architecture_table.png" alt="Architecture Summary Table" width="800">
+  <img src="visuals/13_architecture_table.png" alt="Architecture Summary Table" width="800">
 </p>
 
 The model has **164.6 million parameters** (trainable numbers). Here's where they live:
 
 <p align="center">
-  <img src="assets/visuals/01_parameter_breakdown.png" alt="Parameter Breakdown" width="800">
+  <img src="visuals/01_parameter_breakdown.png" alt="Parameter Breakdown" width="800">
 </p>
 
 **Key takeaway:** The FFN (thinking layers) use 43% of all parameters — that's where most of the "intelligence" lives. The embedding and output layers are large because our vocabulary has 50,257 words.
@@ -252,7 +252,7 @@ The model has **164.6 million parameters** (trainable numbers). Here's where the
 **Solution:** RMSNorm normalizes the numbers at each layer, keeping them in a healthy range.
 
 <p align="center">
-  <img src="assets/visuals/11_rmsnorm.png" alt="RMSNorm Visualization" width="800">
+  <img src="visuals/11_rmsnorm.png" alt="RMSNorm Visualization" width="800">
 </p>
 
 **Gemma 3's Innovation — (1 + weight) scaling:**
@@ -282,7 +282,7 @@ output = (1 + weight) * normalized_x  # weight starts at 0, so (1+0) = identity
 **Solution:** RoPE (Rotary Position Encoding) **rotates** each word's numbers by an angle that depends on its position. Words in different positions get rotated differently, so the model can tell them apart.
 
 <p align="center">
-  <img src="assets/visuals/05_rope_dual_base.png" alt="RoPE Dual Base Frequencies" width="800">
+  <img src="visuals/05_rope_dual_base.png" alt="RoPE Dual Base Frequencies" width="800">
 </p>
 
 **Gemma 3's Innovation — Dual Bases:**
@@ -313,7 +313,7 @@ Example: In "The **cat** sat on the ___", the model should pay most attention to
 Standard models give every "reader" (head) its own copy of the dictionary (keys and values). Gemma 3 makes all readers **share one dictionary** — 4x less memory!
 
 <p align="center">
-  <img src="assets/visuals/03_mqa_vs_standard.png" alt="MQA vs Standard Attention" width="800">
+  <img src="visuals/03_mqa_vs_standard.png" alt="MQA vs Standard Attention" width="800">
 </p>
 
 **How it works:**
@@ -337,7 +337,7 @@ Gemma 3:   4 Query x 1 Key x 1 Value =  6 projections  -->    256 dim KV cache
 **Solution:** Sliding window attention — each word only looks at the **last 512 words** (the "window"). For local patterns like grammar and sentence structure, you don't need to see the whole document.
 
 <p align="center">
-  <img src="assets/visuals/04_attention_masks.png" alt="Attention Masks" width="800">
+  <img src="visuals/04_attention_masks.png" alt="Attention Masks" width="800">
 </p>
 
 **The key insight:** Gemma 3 uses **both types**:
@@ -357,7 +357,7 @@ Combined:        Best of both worlds!
 After attention decides **which words are important**, the FFN processes that information — it's where the actual "thinking" happens.
 
 <p align="center">
-  <img src="assets/visuals/10_geglu_ffn.png" alt="GeGLU FFN Architecture" width="800">
+  <img src="visuals/10_geglu_ffn.png" alt="GeGLU FFN Architecture" width="800">
 </p>
 
 **How GeGLU works:**
@@ -386,7 +386,7 @@ output = down_proj(GELU(gate(x)) * up(x))    # Gate selects important features
 **Solution:** Skip connections add a "highway" that lets information bypass layers entirely.
 
 <p align="center">
-  <img src="assets/visuals/15_skip_connections.png" alt="Skip Connections" width="800">
+  <img src="visuals/15_skip_connections.png" alt="Skip Connections" width="800">
 </p>
 
 ```python
@@ -406,7 +406,7 @@ output = layer(x) + x          # Original signal always preserved!
 The 18 transformer layers alternate between two types:
 
 <p align="center">
-  <img src="assets/visuals/02_layer_types_pattern.png" alt="Layer Types Pattern" width="800">
+  <img src="visuals/02_layer_types_pattern.png" alt="Layer Types Pattern" width="800">
 </p>
 
 ```
@@ -429,7 +429,7 @@ Layer  18:     Full Attention (global, RoPE base=1M)       <-- Story understandi
 We trained on the [TinyStories](https://huggingface.co/datasets/roneneldan/TinyStories) dataset — 2.1 million short children's stories written by GPT-3.5/4, designed specifically for training small language models.
 
 <p align="center">
-  <img src="assets/visuals/09_dataset_statistics.png" alt="Dataset Statistics" width="800">
+  <img src="visuals/09_dataset_statistics.png" alt="Dataset Statistics" width="800">
 </p>
 
 | Property | Value |
@@ -446,7 +446,7 @@ We trained on the [TinyStories](https://huggingface.co/datasets/roneneldan/TinyS
 Here's the complete end-to-end training process:
 
 <p align="center">
-  <img src="assets/visuals/14_training_pipeline.png" alt="Training Pipeline" width="800">
+  <img src="visuals/14_training_pipeline.png" alt="Training Pipeline" width="800">
 </p>
 
 **Step by step:**
@@ -462,7 +462,7 @@ Here's the complete end-to-end training process:
 ### Loss Curves & Results
 
 <p align="center">
-  <img src="assets/visuals/06_training_curves.png" alt="Training Curves" width="800">
+  <img src="visuals/06_training_curves.png" alt="Training Curves" width="800">
 </p>
 
 | Metric | Value |
@@ -486,7 +486,7 @@ After 13K steps:  perplexity 5.96     (converged! writing coherent stories)
 ### Learning Rate Schedule
 
 <p align="center">
-  <img src="assets/visuals/07_lr_schedule.png" alt="Learning Rate Schedule" width="800">
+  <img src="visuals/07_lr_schedule.png" alt="Learning Rate Schedule" width="800">
 </p>
 
 The learning rate controls **how big** each update step is:
@@ -500,7 +500,7 @@ The learning rate controls **how big** each update step is:
 When generating stories, **temperature** controls how "creative" vs "predictable" the AI is:
 
 <p align="center">
-  <img src="assets/visuals/12_temperature_effect.png" alt="Temperature Effect" width="800">
+  <img src="visuals/12_temperature_effect.png" alt="Temperature Effect" width="800">
 </p>
 
 | Temperature | Behavior | Best For |
@@ -609,7 +609,7 @@ gemma3-270m-pretrained/
 Let's be honest about where this model fits in the AI landscape:
 
 <p align="center">
-  <img src="assets/visuals/08_model_size_comparison.png" alt="Model Size Comparison" width="800">
+  <img src="visuals/08_model_size_comparison.png" alt="Model Size Comparison" width="800">
 </p>
 
 | Model | Parameters | Training Cost | Can Write Stories? |
